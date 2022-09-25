@@ -1,0 +1,82 @@
+.userElem {
+    width: 100%;
+    height: 84px;
+    display: flex;
+    align-items: center;
+}
+
+.userAvatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: linear-gradient(90deg, #F3F3F6 0%, #FAFAFA 100%);
+    margin-right: 16px;
+}
+
+.userInfo {
+    height: 38px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.userDepartment {
+    border-radius: 50px;
+    height: 12px;
+}
+
+.userDepartmentNone {
+    background: linear-gradient(90deg, #F3F3F6 0%, #FAFAFA 100%);
+    border-radius: 50px;
+    width: 80px;
+    height: 12px;
+}
+
+.userNameNone {
+    background: linear-gradient(90deg, #F3F3F6 0%, #FAFAFA 100%);
+    border-radius: 50px;
+    width: 144px;
+    height: 16px;
+}
+
+.userName {
+    border-radius: 50px;
+    height: 16px;
+}
+
+.userAvatarImg {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.userNameText {
+    padding: 0;
+    margin: 0;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    color: #050510; 
+}
+
+.userDepartmentText {
+    padding: 0;
+    margin: 0;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 16px;
+    color: #55555C;
+}
+
+.userNameTag {
+    color: #97979B;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 18px;
+}
