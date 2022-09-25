@@ -3,9 +3,8 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 
-function TabsMenu() {
-  const [value, setValue] = React.useState('one');
-
+function TabsMenu(props) {
+  const {value, setValue} = props
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -20,12 +19,12 @@ function TabsMenu() {
             indicatorColor="secondary"
             aria-label="secondary tabs example"
           >
-            <Tab value="one" label="Все" />
-            <Tab value="two" label="Designers" />
-            <Tab value="three" label="Analysts" />
-            <Tab value="four" label="Managers" />
-            <Tab value="five" label="iOS" />
-            <Tab value="six" label="Android" />
+            <Tab value="all" label="Все" />
+            <Tab value="design" label="Designers" />
+            <Tab value="analytics" label="Analysts " />
+            <Tab value="management" label="Managers" />
+            <Tab value="ios" label="iOS" />
+            <Tab value="android" label="Android" />
           </Tabs>
         </Box>
     </div>

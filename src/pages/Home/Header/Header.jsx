@@ -5,8 +5,7 @@ import Sort from '../../../img/svg/Sort.svg'
 import TabsMenu from '../TabsMenu/TabsMenu'
 import '../TabsMenu/TabsMenu.css'
 
-function Header() {
-
+function Header(props) {
   return (
     <header className='header'>
       <div className='header-container'>
@@ -14,9 +13,9 @@ function Header() {
         <div className='input-container'>
           <img src={Search} alt="Search" className='search-img'/>
           <input type="text" className='input' placeholder='Введите имя, тег, почту...' />
-          <img src={Sort} alt="Sort" className='sort-img'/>
+          <img src={Sort} alt="Sort" className='sort-img' />
         </div>
-        <TabsMenu />
+        <TabsMenu value={props.value} setValue={props.setValue}/>
       </div>
     </header>
   )
