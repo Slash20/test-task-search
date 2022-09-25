@@ -6,7 +6,6 @@ import TabsMenu from '../TabsMenu/TabsMenu'
 import '../TabsMenu/TabsMenu.css'
 
 function Header() {
-  
 
   return (
     <header className='header'>

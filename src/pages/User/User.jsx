@@ -4,7 +4,7 @@ import './User.css'
 function User() {
   return (
     <div className='user'>
-
+      
     </div>
   )
 }

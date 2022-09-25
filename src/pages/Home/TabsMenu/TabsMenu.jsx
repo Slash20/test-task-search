@@ -16,7 +16,7 @@ function TabsMenu() {
           <Tabs 
             value={value}
             onChange={handleChange}
-            textColor="none"
+            textColor="inherit"
             indicatorColor="secondary"
             aria-label="secondary tabs example"
           >
