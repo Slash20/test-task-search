@@ -17,6 +17,7 @@ function UserElem(props) {
               <p className='userDepartmentText'>{props.department}</p>
             </div>
         </div>
+            {props.sortMethod === 'by-birthday' ? <div className='userBirthday'></div> : ''}
     </div>
   )
 }

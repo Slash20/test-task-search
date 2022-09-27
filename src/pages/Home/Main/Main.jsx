@@ -8,7 +8,7 @@ import { useState } from "react";
 function Main(props) {
   const [users, setUsers] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
   const [sortUsers, setSortUsers] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
-
+  const {searchUser, sortMethod} = props
   async function set() {
     const users = await getUsers();
     setUsers(users.items);
@@ -18,40 +18,85 @@ function Main(props) {
   }, []);
 
   useEffect(() => {
+    console.log(searchUser);
     setSortUsers(
       users.filter((e) => {
+        if (searchUser.length >= 1) {
+          const superStr = `${e.firstName} ${e.lastName} ${e.userTag}`.toLowerCase()
+          if(superStr.indexOf(searchUser.toLowerCase()) === -1) {
+            return false
+          } 
+        }
+
         if (props.value === "all") {
           return true;
         } else {
-          console.log(props.value);
-          console.log(e.department);
           return props.value === e.department;
         }
       })
     );
-  }, [props.value]);
+  }, [props.value, props.searchUser]);
   return (
     <main className="main">
       <div className="userList">
-        {(props.value === "all" ? users : sortUsers)
+        {(props.value === "all" ? props.searchUser.length < 1 ? users : sortUsers : sortUsers)
           .sort((a, b) => {
-            const firstStr = a.firstName + a.lastName;
-            const secondStr = b.firstName + b.lastName;
-            if (firstStr > secondStr) {
-              return 1;
-            }
+            if (sortMethod === 'alphabetically') {
+              const firstStr = a.firstName + a.lastName;
+              const secondStr = b.firstName + b.lastName;
+              if (firstStr > secondStr) {
+                return 1;
+              }
 
-            if (firstStr < secondStr) {
-              return -1;
-            }
+              if (firstStr < secondStr) {
+                return -1;
+              }
 
-            return 0;
+              return 0;
+            }
+            if (sortMethod === 'by-birthday') {
+              const firstDate = a.birthday
+              const secondDate = b.birthday
+              console.log(firstDate);
+              console.log(firstDate.slice(0, 4));
+              const firstYear = Number(firstDate.slice(0, 4))
+              const secondYear = Number(secondDate.slice(0, 4))
+              if (firstYear > secondYear) {
+                return 1
+              }
+              
+              if (firstYear < secondYear) {
+                return -1
+              }
+
+              if (firstYear === secondYear) {
+                const firstMonth = Number(firstDate.slice(5, 7))
+                const secondMonth = Number(secondDate.slice(5, 7))
+                if (firstMonth > secondMonth) {
+                  return 1
+                }
+                if (firstMonth < secondMonth) {
+                  return -1
+                }
+                if (firstMonth === secondMonth) {
+                  const firstDay = Number(firstDate.slice(8, 10))
+                  const secondDay = Number(secondDate.slice(8, 10))
+                  if (firstDay > secondDay) {
+                    return 1
+                  }
+                  if (firstDay < secondDay) {
+                    return -1
+                  }
+                  
+                }  
+              }
+              return 0
+            }
           })
           .map((e, i) => {
             if (!e.department) {
-              return <UserElem key={i} />;
+              return <UserElem key={i} sortMethod={sortMethod}/>;
             }
-            console.log(e);
             let newDepartment;
             switch (e.department) {
               case "android":
@@ -102,6 +147,7 @@ function Main(props) {
                 lastName={e.lastName}
                 department={newDepartment}
                 userTag={e.userTag}
+                sortMethod={sortMethod}
               />
             );
           })}

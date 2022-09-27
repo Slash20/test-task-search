@@ -80,3 +80,13 @@
     font-size: 14px;
     line-height: 18px;
 }
+
+.userBirthday {
+    justify-self: flex-end;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 20px;
+    color: #55555C;
+}
