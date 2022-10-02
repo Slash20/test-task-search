@@ -1,159 +1,191 @@
-import React from "react";
-import UserElem from "../../../components/UserElem/UserElem";
-import "./Main.css";
-import getUsers from "./getUsers";
-import { useEffect } from "react";
-import { useState } from "react";
+import React from 'react';
+import UserElem from '../../../components/UserElem/UserElem';
+import './Main.css';
+import getUsers from './getUsers';
+import { useEffect } from 'react';
+import { useState } from 'react';
+import YearBlock from '../../../components/YearBlock/YearBlock';
 
 function Main(props) {
-  const [users, setUsers] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
-  const [sortUsers, setSortUsers] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
-  const {searchUser, sortMethod} = props
-  async function set() {
-    const users = await getUsers();
-    setUsers(users.items);
-  }
-  useEffect(() => {
-    set();
-  }, []);
+    let currentYear = 2022;
+    const [users, setUsers] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
+    const [sortUsers, setSortUsers] = useState([
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,
+    ]);
+    const { searchUser, sortMethod } = props;
+    async function set() {
+        const users = await getUsers();
+        setUsers(users.items);
+    }
+    useEffect(() => {
+        set();
+    }, []);
 
-  useEffect(() => {
-    console.log(searchUser);
-    setSortUsers(
-      users.filter((e) => {
-        if (searchUser.length >= 1) {
-          const superStr = `${e.firstName} ${e.lastName} ${e.userTag}`.toLowerCase()
-          if(superStr.indexOf(searchUser.toLowerCase()) === -1) {
-            return false
-          } 
-        }
+    useEffect(() => {
+        console.log(searchUser);
+        setSortUsers(
+            users.filter((e) => {
+                if (searchUser.length >= 1) {
+                    const superStr =
+                        `${e.firstName} ${e.lastName} ${e.userTag}`.toLowerCase();
+                    if (superStr.indexOf(searchUser.toLowerCase()) === -1) {
+                        return false;
+                    }
+                }
 
-        if (props.value === "all") {
-          return true;
-        } else {
-          return props.value === e.department;
-        }
-      })
+                if (props.value === 'all') {
+                    return true;
+                } else {
+                    return props.value === e.department;
+                }
+            })
+        );
+    }, [props.value, props.searchUser]);
+    return (
+        <main className='main'>
+            <div className='userList'>
+                {(props.value === 'all'
+                    ? props.searchUser.length < 1
+                        ? users
+                        : sortUsers
+                    : sortUsers
+                )
+                    .sort((a, b) => {
+                        if (sortMethod === 'alphabetically') {
+                            const firstStr = a.firstName + a.lastName;
+                            const secondStr = b.firstName + b.lastName;
+                            if (firstStr > secondStr) {
+                                return 1;
+                            }
+
+                            if (firstStr < secondStr) {
+                                return -1;
+                            }
+
+                            return 0;
+                        }
+                        if (sortMethod === 'by-birthday') {
+                            const firstDate = a.birthday;
+                            const secondDate = b.birthday;
+                            console.log(firstDate);
+                            console.log(firstDate.slice(0, 4));
+                            const firstYear = Number(firstDate.slice(0, 4));
+                            const secondYear = Number(secondDate.slice(0, 4));
+                            if (firstYear > secondYear) {
+                                return -1;
+                            }
+
+                            if (firstYear < secondYear) {
+                                return 1;
+                            }
+
+                            if (firstYear === secondYear) {
+                                const firstMonth = Number(
+                                    firstDate.slice(5, 7)
+                                );
+                                const secondMonth = Number(
+                                    secondDate.slice(5, 7)
+                                );
+                                if (firstMonth > secondMonth) {
+                                    return -1;
+                                }
+                                if (firstMonth < secondMonth) {
+                                    return 1;
+                                }
+                                if (firstMonth === secondMonth) {
+                                    const firstDay = Number(
+                                        firstDate.slice(8, 10)
+                                    );
+                                    const secondDay = Number(
+                                        secondDate.slice(8, 10)
+                                    );
+                                    if (firstDay > secondDay) {
+                                        return -1;
+                                    }
+                                    if (firstDay < secondDay) {
+                                        return 1;
+                                    }
+                                }
+                            }
+                            return 0;
+                        }
+                    })
+                    .map((e, i) => {
+                        if (!e.department) {
+                            return <UserElem key={i} sortMethod={sortMethod} />;
+                        }
+                        let newDepartment;
+                        switch (e.department) {
+                            case 'android':
+                                newDepartment = 'Android';
+                                break;
+                            case 'ios':
+                                newDepartment = 'IOS';
+                                break;
+                            case 'design':
+                                newDepartment = 'Дизайн';
+                                break;
+                            case 'management':
+                                newDepartment = 'Менеджмент';
+                                break;
+                            case 'qa':
+                                newDepartment = 'QA';
+                                break;
+                            case 'back_office':
+                                newDepartment = 'Бэк-офис';
+                                break;
+                            case 'frontend':
+                                newDepartment = 'Frontend';
+                                break;
+                            case 'hr':
+                                newDepartment = 'HR';
+                                break;
+                            case 'pr':
+                                newDepartment = 'PR';
+                                break;
+                            case 'backend':
+                                newDepartment = 'Backend';
+                                break;
+                            case 'support':
+                                newDepartment = 'Техподдержка';
+                                break;
+                            case 'analytics':
+                                newDepartment = 'Аналитика';
+                                break;
+                            default:
+                                newDepartment = '';
+                                break;
+                        }
+                        const year = Number(e.birthday.slice(0, 4));
+                        function changeYear() {
+                            const prevYear = currentYear;
+                            currentYear = year;
+                            return <div>{prevYear}</div>;
+                        }
+                        return (
+                            <React.Fragment key={i}>
+                                {year !== currentYear &&
+                                sortMethod === 'by-birthday' ? (
+                                    <YearBlock
+                                        text={changeYear()}
+                                        key={i + 'year'}
+                                    />
+                                ) : null}
+                                <UserElem
+                                    img={e.avatarUrl}
+                                    firstName={e.firstName}
+                                    lastName={e.lastName}
+                                    department={newDepartment}
+                                    userTag={e.userTag}
+                                    sortMethod={sortMethod}
+                                    birthday={e.birthday}
+                                />
+                            </React.Fragment>
+                        );
+                    })}
+            </div>
+        </main>
     );
-  }, [props.value, props.searchUser]);
-  return (
-    <main className="main">
-      <div className="userList">
-        {(props.value === "all" ? props.searchUser.length < 1 ? users : sortUsers : sortUsers)
-          .sort((a, b) => {
-            if (sortMethod === 'alphabetically') {
-              const firstStr = a.firstName + a.lastName;
-              const secondStr = b.firstName + b.lastName;
-              if (firstStr > secondStr) {
-                return 1;
-              }
-
-              if (firstStr < secondStr) {
-                return -1;
-              }
-
-              return 0;
-            }
-            if (sortMethod === 'by-birthday') {
-              const firstDate = a.birthday
-              const secondDate = b.birthday
-              console.log(firstDate);
-              console.log(firstDate.slice(0, 4));
-              const firstYear = Number(firstDate.slice(0, 4))
-              const secondYear = Number(secondDate.slice(0, 4))
-              if (firstYear > secondYear) {
-                return 1
-              }
-              
-              if (firstYear < secondYear) {
-                return -1
-              }
-
-              if (firstYear === secondYear) {
-                const firstMonth = Number(firstDate.slice(5, 7))
-                const secondMonth = Number(secondDate.slice(5, 7))
-                if (firstMonth > secondMonth) {
-                  return 1
-                }
-                if (firstMonth < secondMonth) {
-                  return -1
-                }
-                if (firstMonth === secondMonth) {
-                  const firstDay = Number(firstDate.slice(8, 10))
-                  const secondDay = Number(secondDate.slice(8, 10))
-                  if (firstDay > secondDay) {
-                    return 1
-                  }
-                  if (firstDay < secondDay) {
-                    return -1
-                  }
-                  
-                }  
-              }
-              return 0
-            }
-          })
-          .map((e, i) => {
-            if (!e.department) {
-              return <UserElem key={i} sortMethod={sortMethod}/>;
-            }
-            let newDepartment;
-            switch (e.department) {
-              case "android":
-                newDepartment = "Android";
-                break;
-              case "ios":
-                newDepartment = "IOS";
-                break;
-              case "design":
-                newDepartment = "Дизайн";
-                break;
-              case "management":
-                newDepartment = "Менеджмент";
-                break;
-              case "qa":
-                newDepartment = "QA";
-                break;
-              case "back_office":
-                newDepartment = "Бэк-офис";
-                break;
-              case "frontend":
-                newDepartment = "Frontend";
-                break;
-              case "hr":
-                newDepartment = "HR";
-                break;
-              case "pr":
-                newDepartment = "PR";
-                break;
-              case "backend":
-                newDepartment = "Backend";
-                break;
-              case "support":
-                newDepartment = "Техподдержка";
-                break;
-              case "analytics":
-                newDepartment = "Аналитика";
-                break;
-              default:
-                newDepartment = "";
-                break;
-            }
-            return (
-              <UserElem
-                img={e.avatarUrl}
-                key={i}
-                firstName={e.firstName}
-                lastName={e.lastName}
-                department={newDepartment}
-                userTag={e.userTag}
-                sortMethod={sortMethod}
-              />
-            );
-          })}
-      </div>
-    </main>
-  );
 }
 
 export default Main;

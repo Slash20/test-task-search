@@ -1,8 +1,9 @@
-.userElem {
+.userElemContainer {
     width: 100%;
     height: 84px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
 }
 
 .userAvatar {
@@ -82,11 +83,17 @@
 }
 
 .userBirthday {
-    justify-self: flex-end;
+    justify-items: flex-end;
     font-family: 'Inter';
     font-style: normal;
     font-weight: 400;
     font-size: 15px;
     line-height: 20px;
     color: #55555C;
+    margin-right: 20px;
+}
+
+.userLeft {
+    display: flex;
+    align-items: center;
 }
