@@ -5,6 +5,7 @@ import getUsers from './getUsers';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import YearBlock from '../../../components/YearBlock/YearBlock';
+import SearchNone from '../../../components/SearchNone/SearchNone';
 
 function Main(props) {
     let currentYear = 2022;
@@ -41,6 +42,12 @@ function Main(props) {
             })
         );
     }, [props.value, props.searchUser]);
+    if (sortUsers === 'Error') {
+        return <SearchNone />;
+    }
+    if (!sortUsers.length) {
+        return <SearchNone type='not found' />;
+    }
     return (
         <main className='main'>
             <div className='userList'>
@@ -67,8 +74,6 @@ function Main(props) {
                         if (sortMethod === 'by-birthday') {
                             const firstDate = a.birthday;
                             const secondDate = b.birthday;
-                            console.log(firstDate);
-                            console.log(firstDate.slice(0, 4));
                             const firstYear = Number(firstDate.slice(0, 4));
                             const secondYear = Number(secondDate.slice(0, 4));
                             if (firstYear > secondYear) {
@@ -110,7 +115,7 @@ function Main(props) {
                             return 0;
                         }
                     })
-                    .map((e, i) => {
+                    .map((e, i, arr) => {
                         if (!e.department) {
                             return <UserElem key={i} sortMethod={sortMethod} />;
                         }
@@ -162,10 +167,14 @@ function Main(props) {
                             currentYear = year;
                             return <div>{prevYear}</div>;
                         }
+                        if (i === 0) {
+                            currentYear = year;
+                        }
                         return (
                             <React.Fragment key={i}>
                                 {year !== currentYear &&
-                                sortMethod === 'by-birthday' ? (
+                                sortMethod === 'by-birthday' &&
+                                i !== 0 ? (
                                     <YearBlock
                                         text={changeYear()}
                                         key={i + 'year'}
@@ -180,6 +189,12 @@ function Main(props) {
                                     sortMethod={sortMethod}
                                     birthday={e.birthday}
                                 />
+                                {i === arr.length - 1 ? (
+                                    <YearBlock
+                                        text={changeYear()}
+                                        key={i + 'year'}
+                                    />
+                                ) : null}
                             </React.Fragment>
                         );
                     })}
