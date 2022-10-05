@@ -16,6 +16,7 @@ function Main(props) {
     const { searchUser, sortMethod } = props;
     async function set() {
         const users = await getUsers();
+        console.log(users);
         setUsers(users.items);
     }
     useEffect(() => {
@@ -23,7 +24,9 @@ function Main(props) {
     }, []);
 
     useEffect(() => {
-        console.log(searchUser);
+        if (!users) {
+            return;
+        }
         setSortUsers(
             users.filter((e) => {
                 if (searchUser.length >= 1) {
@@ -42,7 +45,7 @@ function Main(props) {
             })
         );
     }, [props.value, props.searchUser]);
-    if (sortUsers === 'Error') {
+    if (!users) {
         return <SearchNone />;
     }
     if (!sortUsers.length) {
@@ -189,11 +192,9 @@ function Main(props) {
                                     sortMethod={sortMethod}
                                     birthday={e.birthday}
                                 />
-                                {i === arr.length - 1 ? (
-                                    <YearBlock
-                                        text={changeYear()}
-                                        key={i + 'year'}
-                                    />
+                                {i === arr.length - 1 &&
+                                sortMethod === 'by-birthday' ? (
+                                    <YearBlock text={changeYear()} />
                                 ) : null}
                             </React.Fragment>
                         );
