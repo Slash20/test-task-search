@@ -18,9 +18,9 @@ function UserElem(props) {
         'дек',
     ];
     return (
-        <Link to='user'>
-            <div className='userElemContainer'>
-                <div className='userLeft'>
+        <div className='userElemContainer'>
+            <div className='userLeft'>
+                <Link to='user'>
                     <div className='userAvatar'>
                         {props.img ? (
                             <img
@@ -32,42 +32,46 @@ function UserElem(props) {
                             ''
                         )}
                     </div>
-                    <div className='userInfo'>
-                        <div
-                            className={
-                                props.firstName ? 'userName' : 'userNameNone'
-                            }
-                        >
-                            <p className='userNameText'>
+                </Link>
+                <div className='userInfo'>
+                    <div
+                        className={
+                            props.firstName ? 'userName' : 'userNameNone'
+                        }
+                    >
+                        <p className='userNameText'>
+                            <Link
+                                to='user'
+                                style={{
+                                    color: '#050510',
+                                    textDecoration: 'none',
+                                }}
+                            >
                                 {props.firstName} {props.lastName}{' '}
-                                <span className='userNameTag'>
-                                    {props.userTag}
-                                </span>
-                            </p>
-                        </div>
-                        <div
-                            className={
-                                props.department
-                                    ? 'userDepartment'
-                                    : 'userDepartmentNone'
-                            }
-                        >
-                            <p className='userDepartmentText'>
-                                {props.department}
-                            </p>
-                        </div>
+                            </Link>
+                            <span className='userNameTag'>{props.userTag}</span>
+                        </p>
+                    </div>
+                    <div
+                        className={
+                            props.department
+                                ? 'userDepartment'
+                                : 'userDepartmentNone'
+                        }
+                    >
+                        <p className='userDepartmentText'>{props.department}</p>
                     </div>
                 </div>
-
-                {props.sortMethod === 'by-birthday' ? (
-                    <div className='userBirthday'>
-                        {Number(props.birthday.slice(8, 10)) +
-                            ' ' +
-                            months[Number(props.birthday.slice(5, 7)) - 1]}
-                    </div>
-                ) : null}
             </div>
-        </Link>
+
+            {props.sortMethod === 'by-birthday' ? (
+                <div className='userBirthday'>
+                    {Number(props.birthday.slice(8, 10)) +
+                        ' ' +
+                        months[Number(props.birthday.slice(5, 7)) - 1]}
+                </div>
+            ) : null}
+        </div>
     );
 }
 
