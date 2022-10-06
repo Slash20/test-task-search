@@ -1,0 +1,53 @@
+.popUpContainer {
+    background: rgba(5, 5, 16, 0.16);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.popUp {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    width: 373px;
+    height: 192px;
+    border-radius: 20px;
+    background-color: #fff;
+}
+
+.crossBtn {
+    width: 24px;
+    height: 24px;
+    top: 24px;
+    right: 24px;
+    position: absolute;
+    border-radius: 12px;
+    border: none;
+    background: #F7F7F8;
+    cursor: pointer;
+}
+
+h3 {
+    margin: 0;
+    margin-top: 24px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+    color: #050510;
+    align-self: center;
+}
+
+.radioBtns {
+    margin-left: 18px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 18px;
+}
