@@ -20,7 +20,7 @@ function UserElem(props) {
     return (
         <div className='userElemContainer'>
             <div className='userLeft'>
-                <Link to='user'>
+                <Link to={`user/${props.id}`}>
                     <div className='userAvatar'>
                         {props.img ? (
                             <img
@@ -41,7 +41,7 @@ function UserElem(props) {
                     >
                         <p className='userNameText'>
                             <Link
-                                to='user'
+                                to={`user/${props.id}`}
                                 style={{
                                     color: '#050510',
                                     textDecoration: 'none',
