@@ -191,6 +191,8 @@ function Main(props) {
                                     userTag={e.userTag}
                                     sortMethod={sortMethod}
                                     birthday={e.birthday}
+                                    id={e.id}
+                                    phone={e.phone}
                                 />
                                 {i === arr.length - 1 &&
                                 sortMethod === 'by-birthday' ? (
