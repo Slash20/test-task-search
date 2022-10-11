@@ -9,6 +9,7 @@ import { useParams } from 'react-router-dom';
 import { useState } from 'react';
 
 function UserProfile(props) {
+    const currentYear = 2022;
     const months = [
         'января',
         'февраля',
@@ -29,12 +30,17 @@ function UserProfile(props) {
         const currentUser = users.items.find((e) => {
             return user.id === e.id;
         });
-        setUser({ ...user, user: currentUser });
+        setUser({
+            ...user,
+            user: {
+                ...currentUser,
+                age: currentYear - Number(currentUser.birthday.slice(0, 4)),
+            },
+        });
     }
     useEffect(() => {
         set();
     }, []);
-    console.log(user.user.birthday);
     return (
         <div className='userProfileContainer'>
             <Link to='../'>
@@ -62,28 +68,53 @@ function UserProfile(props) {
                 </h3>
                 <p className='userProfileDepartment'>{user.user.department}</p>
             </header>
-            <main className='userProfileMain'>
-                <h3>
-                    <img
-                        src={star}
-                        style={{ marginLeft: '18px', marginRight: '14px' }}
-                        alt=''
-                    />
-                    {user.user.birthday
-                        ? `${user.user.birthday.slice(8, 10)} ${
-                              months[Number(user.user.birthday.slice(5, 7))]
-                          } ${user.user.birthday.slice(0, 4)}`
-                        : null}
-                </h3>
-                <h3>
-                    <img
-                        src={phone}
-                        alt=''
-                        style={{ marginLeft: '18px', marginRight: '14px' }}
-                    />
-                    {user.user.phone}
-                </h3>
-            </main>
+            {user.user.id ? (
+                <main className='userProfileMain'>
+                    <h3 className='userDateBirthday'>
+                        <div>
+                            <img
+                                src={star}
+                                style={{
+                                    marginLeft: '18px',
+                                    marginRight: '14px',
+                                }}
+                                alt=''
+                            />
+                            {user.user.birthday
+                                ? `${user.user.birthday.slice(8, 10)} ${
+                                      months[
+                                          Number(user.user.birthday.slice(5, 7))
+                                      ]
+                                  } ${user.user.birthday.slice(0, 4)}`
+                                : null}
+                        </div>
+                        <div className='userAge'>
+                            {user.user.age}{' '}
+                            {String(user.user.age)[
+                                String(user.user.age).length - 1
+                            ] == 1
+                                ? 'год'
+                                : String(user.user.age)[
+                                      String(user.user.age).length - 1
+                                  ] < 5 &&
+                                  String(user.user.age)[
+                                      String(user.user.age).length - 1
+                                  ] > 0
+                                ? 'года'
+                                : 'лет'}
+                        </div>
+                    </h3>
+                    <hr />
+                    <h3>
+                        <img
+                            src={phone}
+                            alt=''
+                            style={{ marginLeft: '18px', marginRight: '14px' }}
+                        />
+                        {user.user.phone}
+                    </h3>
+                </main>
+            ) : null}
         </div>
     );
 }
